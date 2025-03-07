@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill & Strengths Alignment Result</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1E1E2F, #2E3B8B);
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            color: #F8F9FA;
+        }
+        #result-message, #job-suggestion {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 36px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #4A90E2;
+            color: white;
+            transition: 0.3s ease-in-out;
+            margin: 10px;
+        }
+        button:hover {
+            background: #357ABD;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 Skill & Strengths Alignment Completed! 🎉</h1>
+    <p id="result-message">Based on your strengths, you are best suited for:</p>
+    <p id="job-suggestion"></p>
+
+    <div class="button-container">
+        <button onclick="restartTest()">Restart Test</button>
+        <button onclick="exitTest()">Exit</button>
+    </div>
+
+    <script>
+        function getJobSuggestion(answers) {
+            let jobRole = "";
+            const analytical = answers.filter(ans => ans.includes("Analytical"))?.length;
+            const leadership = answers.filter(ans => ans.includes("Leadership"))?.length;
+            const creative = answers.filter(ans => ans.includes("Creative"))?.length;
+            const technical = answers.filter(ans => ans.includes("Technical"))?.length;
+
+            if (analytical > leadership && analytical > creative && analytical > technical) {
+                jobRole = "Data Analyst, Financial Analyst, or Researcher";
+            } else if (leadership > analytical && leadership > creative && leadership > technical) {
+                jobRole = "Team Lead, HR Manager, or Business Consultant";
+            } else if (creative > analytical && creative > leadership && creative > technical) {
+                jobRole = "Graphic Designer, Content Strategist, or UX/UI Designer";
+            } else if (technical > analytical && technical > leadership && technical > creative) {
+                jobRole = "Software Developer, Engineer, or IT Specialist";
+            } else {
+                jobRole = "A versatile career in Management or Entrepreneurship";
+            }
+            return jobRole;
+        }
+
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        const suggestedJob = getJobSuggestion(userAnswers);
+        document.getElementById("job-suggestion").innerText = suggestedJob;
+
+        function restartTest() {
+            localStorage.removeItem("userAnswers"); 
+            window.location.href = "skilltest.html"; 
+        }
+
+        function exitTest() {
+            window.location.href = "index.html"; 
+        }
+    </script>
+</body>
+</html>

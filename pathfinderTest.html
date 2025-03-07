@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathFinder Career Assessment</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+        }
+        .quiz-container {
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        #progress {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        #options button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #007bff;
+            color: #fff;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        #options button:hover, .selected {
+            background: #006aff;
+            box-shadow: 0 6px 12px rgba(1, 102, 179, 0.5);
+        }
+        #next-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #28a745;
+            color: white;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+        #next-btn:hover {
+            background: #218838;
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>PathFinder Career Assessment</h1>
+        <p id="progress">Question 1 of 5</p>
+        <h2 id="question">Loading...</h2>
+        <div id="options"></div>
+        <button id="next-btn" onclick="nextQuestion()">Next ➡️</button>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Which work environment do you prefer?", options: ["Independent & problem-solving", "Team-oriented & collaborative", "Creative & artistic", "Hands-on & practical"] },
+            { question: "What kind of tasks do you enjoy?", options: ["Analyzing data & coding", "Helping & communicating with people", "Designing & innovating", "Building & fixing things"] },
+            { question: "Which subject interests you the most?", options: ["Mathematics & computers", "Psychology & social work", "Arts & media", "Engineering & mechanics"] },
+            { question: "What motivates you in a career?", options: ["Technical challenges & problem-solving", "Making an impact on society", "Creative freedom & self-expression", "Practical application & hands-on work"] },
+            { question: "How do you prefer learning?", options: ["Self-learning & research", "Discussions & teamwork", "Experimenting & trying new ideas", "Practical experience & hands-on work"] }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let selectedAnswer = "";
+
+        function loadQuestion() {
+            document.getElementById("question").innerText = questions[currentQuestion].question;
+            document.getElementById("progress").innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            let optionsHTML = "";
+            questions[currentQuestion].options.forEach(option => {
+                optionsHTML += `<button onclick="selectAnswer(this, '${option}')">${option}</button>`;
+            });
+            document.getElementById("options").innerHTML = optionsHTML;
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function selectAnswer(btn, answer) {
+            selectedAnswer = answer;
+            userAnswers[currentQuestion] = answer;
+
+            document.querySelectorAll("#options button").forEach(button => {
+                button.classList.remove("selected");
+            });
+
+            btn.classList.add("selected");
+            document.getElementById("next-btn").style.display = "block";
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer !== "") {
+                currentQuestion++;
+                selectedAnswer = "";
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+                    window.location.href = "CareerFitPersonalityresult.html";
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

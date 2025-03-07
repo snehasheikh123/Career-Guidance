@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guidance Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Background Gradient Animation */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff758c, #ff7eb3, #c471ed, #12c2e9);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            overflow: hidden;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Bounce Effect for Heading */
+        h1 {
+            font-size: 40px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Paragraph Styling */
+        p {
+            font-size: 20px;
+            font-weight: 500;
+            max-width: 600px;
+            margin: 10px auto;
+            line-height: 1.5;
+        }
+
+        /* Neon Glow Button */
+        button {
+            padding: 14px 35px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: #ff4e50;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 78, 80, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 78, 80, 0.9);
+        }
+
+        /* Floating Emoji Animation */
+        .emoji {
+            font-size: 60px;
+            animation: float 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="emoji">🚀🎯</div>
+    <h1>Discover Your Perfect Career!</h1>
+    <p>Take this interactive quiz to explore careers that match your skills & interests.</p>
+    <button onclick="startQuiz()">✨ Start Quiz</button>
+
+    <script>
+        function startQuiz() {
+            window.location.href = "skilltest.html";
+        }
+    </script>
+</body>
+</html>

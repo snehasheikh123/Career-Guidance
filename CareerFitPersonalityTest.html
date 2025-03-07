@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerFit Personality Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            flex-direction: column;
+        }
+        .quiz-container {
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        #progress {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        #options button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #007bff;
+            color: #fff;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        #options button:hover, .selected {
+            background: #006aff;
+            box-shadow: 0 6px 12px rgba(1, 102, 179, 0.5);
+        }
+        #next-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #28a745;
+            color: white;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+        #next-btn:hover {
+            background: #218838;
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 id="question">Loading...</h1>
+        <p id="progress"></p>
+        <div id="options"></div>
+        <button id="next-btn" onclick="nextQuestion()">Next ➡️</button>
+    </div>
+    <script>
+        const questions = [
+            { question: "How do you prefer to work?", options: ["Independently, solving complex problems", "Collaboratively in a team environment", "Creatively with new ideas and designs", "Practically, with hands-on tasks"] },
+            { question: "What type of tasks do you enjoy most?", options: ["Analyzing data and logic", "Helping and communicating with people", "Designing and innovating", "Fixing and constructing things"] },
+            { question: "What excites you the most?", options: ["Solving technical problems", "Leading and motivating a team", "Creating art, music, or media", "Working with tools and machinery"] },
+            { question: "What do you value most in a job?", options: ["High salary and financial stability", "Work-life balance and flexibility", "Creativity and innovation", "Job security and stability"] },
+            { question: "Which of these activities do you enjoy the most?", options: ["Coding or logical problem-solving", "Helping others and organizing events", "Sketching or designing", "Building and fixing things"] }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let selectedAnswer = "";
+
+        function loadQuestion() {
+            document.getElementById("question").innerText = questions[currentQuestion].question;
+            document.getElementById("progress").innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+            let optionsHTML = "";
+            questions[currentQuestion].options.forEach(option => {
+                optionsHTML += `<button onclick="selectAnswer(this, '${option}')">${option}</button>`;
+            });
+            document.getElementById("options").innerHTML = optionsHTML;
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function selectAnswer(btn, answer) {
+            selectedAnswer = answer;
+            userAnswers[currentQuestion] = answer;
+
+            document.querySelectorAll("#options button").forEach(button => {
+                button.classList.remove("selected");
+            });
+            
+            btn.classList.add("selected");
+            document.getElementById("next-btn").style.display = "block";
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer !== "") {
+                currentQuestion++;
+                selectedAnswer = "";
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+                    window.location.href = "CareerFitPersonalityresult.html";
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

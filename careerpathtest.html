@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCareer Path Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            flex-direction: column;
+        }
+        .quiz-container {
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        #progress {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        #options button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #ff5722;
+            color: #fff;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(255, 87, 34, 0.3);
+        }
+        #options button:hover, .selected {
+            background: #e64a19;
+            box-shadow: 0 6px 12px rgba(230, 74, 25, 0.5);
+        }
+        #next-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+        #next-btn:hover {
+            background: #388e3c;
+            box-shadow: 0 6px 12px rgba(56, 142, 60, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 id="question">Loading...</h1>
+        <p id="progress"></p>
+        <div id="options"></div>
+        <button id="next-btn" onclick="nextQuestion()">Next ➡️</button>
+    </div>
+    <script>
+        const questions = [
+            { question: "What is your primary career goal?", options: ["Achieving financial success", "Making a meaningful impact", "Growing in a creative field", "Excelling in a technical career"] },
+            { question: "How do you prefer to work?", options: ["Independently with self-direction", "Collaboratively with a team", "Experimenting with creative ideas", "Applying hands-on technical skills"] },
+            { question: "What do you value most in a job?", options: ["Stability and security", "Opportunities for growth", "Freedom and creativity", "Practical and technical expertise"] },
+            { question: "Which skill set best describes you?", options: ["Analytical and problem-solving", "Leadership and communication", "Artistic and innovative", "Logical and technical"] },
+            { question: "What motivates you to pursue a career?", options: ["Building a successful future", "Making a difference in society", "Expressing my passion and creativity", "Solving real-world technical challenges"] }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let selectedAnswer = "";
+
+        function loadQuestion() {
+            document.getElementById("question").innerText = questions[currentQuestion].question;
+            document.getElementById("progress").innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+            let optionsHTML = "";
+            questions[currentQuestion].options.forEach(option => {
+                optionsHTML += `<button onclick="selectAnswer(this, '${option}')">${option}</button>`;
+            });
+            document.getElementById("options").innerHTML = optionsHTML;
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function selectAnswer(btn, answer) {
+            selectedAnswer = answer;
+            userAnswers[currentQuestion] = answer;
+
+            document.querySelectorAll("#options button").forEach(button => {
+                button.classList.remove("selected");
+            });
+            
+            btn.classList.add("selected");
+            document.getElementById("next-btn").style.display = "block";
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer !== "") {
+                currentQuestion++;
+                selectedAnswer = "";
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+                    window.location.href = "careerpathresult.html";
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

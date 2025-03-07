@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Career Path Test Result</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #F8F9FA;
+        }
+        #result-message, #career-suggestion {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 14px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #27ae60;
+            color: white;
+            transition: 0.3s ease-in-out;
+            margin: 10px;
+        }
+        button:hover {
+            background: #219150;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 MyCareer Path Test Completed! 🎉</h1>
+    <p id="result-message">Based on your responses, your ideal career path is:</p>
+    <p id="career-suggestion"></p>
+
+    <div class="button-container">
+        <button onclick="restartTest()">Restart Test</button>
+        <button onclick="exitTest()">Exit</button>
+    </div>
+
+    <script>
+        function getCareerPath(answers) {
+            let career = "";
+
+            const analytical = answers.filter(ans => ans.includes("Analyze" || "Logical" || "Problem-solving")).length;
+            const creative = answers.filter(ans => ans.includes("Creative" || "Design" || "Innovate")).length;
+            const leadership = answers.filter(ans => ans.includes("Lead" || "Communicate" || "Influence")).length;
+            const technical = answers.filter(ans => ans.includes("Technical" || "Hands-on" || "Engineering")).length;
+
+            if (analytical > creative && analytical > leadership && analytical > technical) {
+                career = "Data Scientist, Financial Analyst, or Research Strategist";
+            } else if (creative > analytical && creative > leadership && creative > technical) {
+                career = "Graphic Designer, Content Creator, or UI/UX Designer";
+            } else if (leadership > analytical && leadership > creative && leadership > technical) {
+                career = "Business Manager, HR Specialist, or Consultant";
+            } else if (technical > analytical && technical > creative && technical > leadership) {
+                career = "Software Developer, Mechanical Engineer, or IT Specialist";
+            } else {
+                career = "A multidisciplinary career like Entrepreneurship or Innovation Management";
+            }
+            return career;
+        }
+
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        const suggestedCareer = getCareerPath(userAnswers);
+        document.getElementById("career-suggestion").innerText = suggestedCareer;
+
+        function restartTest() {
+            localStorage.removeItem("userAnswers"); 
+            window.location.href = "careerpathtest.html"; 
+        }
+
+        function exitTest() {
+            window.location.href = "index.html"; 
+        }
+    </script>
+</body>
+</html>
