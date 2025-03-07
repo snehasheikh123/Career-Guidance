@@ -13,13 +13,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #1E1E2F, #2E3B8B);
             color: white;
             text-align: center;
             overflow: hidden;
         }
         h1 {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 700;
             color: #F8F9FA;
         }
@@ -35,22 +35,30 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            background: #27ae60;
+            background: #4A90E2;
             color: white;
             transition: 0.3s ease-in-out;
             margin: 10px;
         }
         button:hover {
-            background: #219150;
+            background: #357ABD;
         }
         .button-container {
             display: flex;
             gap: 20px;
         }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
-    <h1>🎉 MyCareer Path Test Completed! 🎉</h1>
+    <h1>🎉 My Career Path Test Completed! 🎉</h1>
     <p id="result-message">Based on your responses, your ideal career path is:</p>
     <p id="career-suggestion"></p>
 
@@ -59,10 +67,12 @@
         <button onclick="exitTest()">Exit</button>
     </div>
 
+    <canvas id="confetti-canvas"></canvas>
+    <audio id="clap-sound" src="clap.mp3" preload="auto"></audio>
+
     <script>
         function getCareerPath(answers) {
             let career = "";
-
             const analytical = answers.filter(ans => ans.includes("Analyze" || "Logical" || "Problem-solving")).length;
             const creative = answers.filter(ans => ans.includes("Creative" || "Design" || "Innovate")).length;
             const leadership = answers.filter(ans => ans.includes("Lead" || "Communicate" || "Influence")).length;
@@ -82,9 +92,47 @@
             return career;
         }
 
+        function startCelebration() {
+            const canvas = document.getElementById("confetti-canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const particles = [];
+
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 5 + 2,
+                    dx: Math.random() * 4 - 2,
+                    dy: Math.random() * 4 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color;
+                    ctx.fill();
+                    particle.x += particle.dx;
+                    particle.y += particle.dy;
+                    if (particle.y > canvas.height) particle.y = 0;
+                });
+                requestAnimationFrame(animateConfetti);
+            }
+
+            animateConfetti();
+            document.getElementById("clap-sound").play();
+        }
+
         const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
         const suggestedCareer = getCareerPath(userAnswers);
         document.getElementById("career-suggestion").innerText = suggestedCareer;
+        
+        window.onload = startCelebration;
 
         function restartTest() {
             localStorage.removeItem("userAnswers"); 

@@ -22,6 +22,15 @@
             font-size: 38px;
             font-weight: 700;
             color: #F8F9FA;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         #result-message, #career-suggestion {
             font-size: 22px;
@@ -47,18 +56,29 @@
             display: flex;
             gap: 20px;
         }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
-    <h1>🎉 Quiz Completed! 🎉</h1>
+    <canvas id="confetti"></canvas>
+    <h1>🎉 Personality - Job Match Test Completed !🎉</h1>
     <p id="result-message">Based on your responses, we suggest:</p>
     <p id="career-suggestion"></p>
-
+    
     <div class="button-container">
         <button onclick="restartQuiz()">Restart Quiz</button>
         <button onclick="exitQuiz()">Exit</button>
     </div>
-
+    
+    <audio id="clap-sound" src="https://www.fesliyanstudios.com/play-mp3/4380"></audio>
+    
     <script>
         function getCareerSuggestion(answers) {
             let career = "";
@@ -94,6 +114,55 @@
         function exitQuiz() {
             window.location.href = "test.html";
         }
+
+        function startCelebration() {
+            const clapSound = document.getElementById("clap-sound");
+            clapSound.play();
+
+            const confetti = document.getElementById("confetti");
+            const ctx = confetti.getContext("2d");
+            confetti.width = window.innerWidth;
+            confetti.height = window.innerHeight;
+
+            let particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * confetti.width,
+                    y: Math.random() * confetti.height,
+                    r: Math.random() * 5 + 2,
+                    d: Math.random() * 10 + 2
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, confetti.width, confetti.height);
+                for (let i = 0; i < particles.length; i++) {
+                    ctx.beginPath();
+                    ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    ctx.arc(particles[i].x, particles[i].y, particles[i].r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function updateConfetti() {
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].y += particles[i].d;
+                    if (particles[i].y > confetti.height) {
+                        particles[i].y = 0;
+                        particles[i].x = Math.random() * confetti.width;
+                    }
+                }
+            }
+
+            function animateConfetti() {
+                drawConfetti();
+                updateConfetti();
+                requestAnimationFrame(animateConfetti);
+            }
+            animateConfetti();
+        }
+
+        startCelebration();
     </script>
 </body>
 </html>

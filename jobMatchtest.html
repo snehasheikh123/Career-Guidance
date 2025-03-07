@@ -88,13 +88,54 @@
         <button id="next-btn" onclick="nextQuestion()">Next ➡️</button>
     </div>
     <script>
-        const questions = [
-            { question: "How do you prefer to work?", options: ["Independently, solving complex problems", "Collaboratively in a team environment", "Creatively with new ideas and designs", "Practically, with hands-on tasks"] },
-            { question: "What type of tasks do you enjoy most?", options: ["Analyzing data and logic", "Helping and communicating with people", "Designing and innovating", "Fixing and constructing things"] },
-            { question: "What excites you the most?", options: ["Solving technical problems", "Leading and motivating a team", "Creating art, music, or media", "Working with tools and machinery"] },
-            { question: "What do you value most in a job?", options: ["High salary and financial stability", "Work-life balance and flexibility", "Creativity and innovation", "Job security and stability"] },
-            { question: "Which of these activities do you enjoy the most?", options: ["Coding or logical problem-solving", "Helping others and organizing events", "Sketching or designing", "Building and fixing things"] }
-        ];
+      const questions = [
+    { 
+        question: "How do you approach problem-solving?", 
+        options: [
+            "I analyze data and find logical solutions.", 
+            "I discuss with others and brainstorm ideas.", 
+            "I think outside the box and take a creative approach.", 
+            "I take quick action and learn from experience."
+        ] 
+    },
+    { 
+        question: "What kind of work excites you the most?", 
+        options: [
+            "Researching and solving complex challenges.", 
+            "Leading and motivating a team.", 
+            "Designing something innovative and artistic.", 
+            "Building or repairing things hands-on."
+        ] 
+    },
+    { 
+        question: "How do you prefer to work?", 
+        options: [
+            "Independently with structured goals.", 
+            "Collaboratively with a team.", 
+            "Freely with space for creativity.", 
+            "Practically with hands-on experience."
+        ] 
+    },
+    { 
+        question: "What drives your career choices?", 
+        options: [
+            "Intellectual growth and challenges.", 
+            "Making a positive impact on people.", 
+            "Freedom to express creativity.", 
+            "Job security and practical results."
+        ] 
+    },
+    { 
+        question: "Which of these hobbies do you enjoy the most?", 
+        options: [
+            "Solving puzzles or learning new skills.", 
+            "Organizing events or helping people.", 
+            "Creating art, music, or content.", 
+            "DIY projects or fixing gadgets."
+        ] 
+    }
+];
+
 
         let currentQuestion = 0;
         let userAnswers = [];
